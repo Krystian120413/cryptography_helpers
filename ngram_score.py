@@ -2,11 +2,11 @@ from math import log10
 
 
 class NgramScore(object):
-    def __init__(self, ngramfile, sep=' '):
+    def __init__(self, ngram_file, sep=' '):
         """ load a file containing ngrams and counts, calculate log probabilities """
         self.ngrams = {}
         key = ""
-        for line in open(ngramfile):
+        for line in open(ngram_file):
             key, count = line.split(sep)
             self.ngrams[key] = int(count)
         self.L = len(key)
