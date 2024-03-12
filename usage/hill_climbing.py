@@ -30,7 +30,7 @@ def change_key(key: str) -> str:
     new_key = ''
     if r < 0.9:
         new_key = change_key1(key)
-    elif r < 0.95:
+    elif r > 0.95:
         new_key = twist2(key)
 
     return new_key
@@ -51,6 +51,34 @@ def hill_climbing(encrypted_text, timelimit: int = 20):
             print(f'old_score = {old_score}')
 
     return [old_score, old_key, decrypt(encrypted_text, old_key)]
+
+
+def shotgun_hill_climbing(encrypted_text: str, wait: int = 1, timelimit: int = 20, spam: bool = False) -> [str]:
+    wyniki = []
+    t1 = time.time()
+    print('SGCH')
+    while time.time() - t1 < timelimit:
+        old_key = "".join(random.sample(list(alphabet), len(alphabet)))
+        old_score = ns.score(decrypt(encrypted_text, old_key))
+        t2 = time.time()
+
+        while time.time() - t2 < wait:
+            new_key = change_key(old_key)
+            new_score = ns.score(decrypt(encrypted_text, new_key))
+            if new_score > old_score:
+                old_key = new_key
+                old_score = new_score
+                t2 = time.time()
+
+        if spam:
+            print([old_score, old_key, decrypt(encrypted_text, old_key)])
+
+        wyniki.append([old_score, old_key, decrypt(encrypted_text, old_key)])
+
+    wyniki.sort()
+    wyniki.reverse()
+    print()
+    return wyniki[0]
 
 
 if __name__ == '__main__':
