@@ -88,7 +88,7 @@ if __name__ == '__main__':
 
     print(textwrap.fill(encrypted_text, 100))
 
-    score, key, decrypted_text = hill_climbing(encrypted_text)
+    score, key, decrypted_text = shotgun_hill_climbing(encrypted_text)
 
     print(f"Score: {score}")
     print(f"Key: {key}")
